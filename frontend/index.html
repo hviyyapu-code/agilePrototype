@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Story Manager</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    h1 {
+      color: #333;
+      margin-top: 30px;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      margin-bottom: 30px;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      background-color: #0078ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fcc;
+    }
+    #stories {
+      width: 90%;
+      max-width: 600px;
+    }
+    .story {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-left: 5px solid #0078ff;
+      border-radius: 5px;
+    }
+    .story h3 {
+      margin: 0;
+      color: #0078ff;
+    }
+    .story p {
+      margin: 5px 0;
+      color: #555;
+    }
+    .status {
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <h1>Create User Story</h1>
+  
+  <form id="storyForm">
+    <input type="text" id="title" placeholder="Title" required />
+    <textarea id="description" placeholder="Description" required></textarea>
+    <button type="submit">Create Story</button>
+  </form>
+
+  <div id="stories"></div>
+
+  <script>
+    const API_URL = "http://localhost:8080/api/stories";
+
+    async function loadStories() {
+      const res = await fetch(API_URL);
+      const stories = await res.json();
+      const container = document.getElementById("stories");
+      container.innerHTML = "";
+
+      stories.forEach(story => {
+        const div = document.createElement("div");
+        div.className = "story";
+        div.innerHTML = `
+          <h3>${story.title}</h3>
+          <p>${story.description}</p>
+          <p class="status">Status: ${story.status}</p>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+      document.getElementById("storyForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const title = document.getElementById("title").value.trim();
+      const description = document.getElementById("description").value.trim();
+
+      if (!title || !description) return alert("Please fill in all fields");
+
+      await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, description }),
+      });
+
+      document.getElementById("title").value = "";
+      document.getElementById("description").value = "";
+      await loadStories();
+    });
+    loadStories();
+  </script>
+</body>
+</html>
+
