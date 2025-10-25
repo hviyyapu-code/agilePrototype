@@ -11,7 +11,7 @@ How to run? (All commands are for macOS)
 1. Clone the repo using the following commands:
     git clone https://github.com/hviyyapu-code/agilePrototype.git
     cd agilePrototype/backend
-2. Create a Database using MySQL with name - "agiletool" and create a table with name - user_story. It can be created using the following commands in terminal or can be created manually using MySQL web app.
+3. Create a Database using MySQL with name - "agiletool" and create a table with name - user_story. It can be created using the following commands in terminal or can be created manually using MySQL web app.
     create database agiletool;
     use agiletool;
     create table user_story (
@@ -19,10 +19,10 @@ How to run? (All commands are for macOS)
       title varchar(255),
       description text,
       status varchar(50) default 'To-Do';
-3. We will now run the backend using the following commands in terminal:
+4. We will now run the backend using the following commands in terminal:
     mvn clean compile
     mvn exec:java -Dexec.mainClass="com.example.App"
-4. You will see a success message, then open the frontend index.html file in browser.
-5. Add the Title and Description of the User Story and hit 'Create Story'.
-6. You can view the story that's added in the below space and can also see in the terminal using the query: select * from user_story; to see that the new user story details are added to the table.
+5. You will see a success message, then open the frontend index.html file in browser.
+6. Add the Title and Description of the User Story and hit 'Create Story'.
+7. You can view the story that's added in the below space and can also see in the terminal using the query: select * from user_story; to see that the new user story details are added to the table.
 
